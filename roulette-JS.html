@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+    <title>Yuri's Javascript Roulette game</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <script src="Scripts/jquery-2.1.3.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <h2>Make your bet:</h2>
+        <ul class="bets">
+            <li class="bet even">Even</li>
+            <li class="bet odd">Odd</li>
+            <li class="bet black">Black</li>
+            <li class="bet red">Red</li>
+            <li class="bet zero">Zero</li>
+            <div class="clearfix"></div>
+        </ul>
+        <div class="clearfix"></div>
+        <p>
+            <input class="spin-button" type="button" value="Spin" onclick="Spin();" />
+        </p>
+        
+        <p>
+            <h2>Result is:</h2>
+            <div class="result-holder">
+                <div class="cell spin-result"></div>
+                <span class="explanation"></span>
+                <div class="clearfix"></div>
+                <p><span class="spin-text">Make a bet and press"spin"!</span></p>
+            </div>
+        
+                
+        </p>
+    
+        <div class="clearfix"></div>
+    
+        <div class="game-field"></div>
+        
+        <div class="clearfix"></div>
+        
+        <script type="text/javascript" src="scripts/roulette-scripts-1.js"></script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+.clearfix {
+    clear: both;
+}
+
+.spin-result {
+    background-color: darkgray;
+    margin-right: 30px;
+}
+
+.bet, .bet.zero {
+    margin: 1px;
+    border: 9px solid white;
+    border-radius: 50%;
+    height: 86px;
+    width: 86px;
+    float: left;
+    color: black;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 86px;
+    text-align: center;
+    color: white;
+    background-color: darkgreen;
+    cursor: pointer;
+}
+
+.bets .bet.selected {
+    border: 9px dashed gold;
+}
+
+.game-field {
+    width: 248px;
+    height: 418px;
+    background-color: green;
+    padding: 2px;
+    cursor: default;
+}
+
+.cell {
+    height: 30px;
+    width: 80px;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+    float: left;
+    color: white;
+    font-weight: bold;
+    font-size: 28px;
+    text-align: center;
+}
+.game-field .cell:nth-child(3n) {
+    border-right: 2px solid white;
+}
+
+.zero {
+    height: 30px;
+    width: 244px;
+    border: 2px solid white;
+    border-bottom: 0px solid white;
+    background-color: darkgreen;
+}
+
+.spin-result.zero {
+    height: 30px;
+    width: 80px;
+}
+
+
+.black {
+    background-color: black;
+}
+
+.red {
+    background-color: red;
+}
+
+.row:last-child {
+    border-bottom: 2px solid white;
+}
+
+.spin-button {
+    height: 50px;
+    width: 200px;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+    vertical-align: middle;
+    border: none;
+    border-radius: 30px;
+    background-color: beige;
+    outline: none;
+}
+
+.bets {
+    width: 600px;
+    list-style: none;
+    padding: 0;
+    border: 1px solid lightgrey;
+}
+
+.result-holder {
+    position: relative;
+    height: 90px;
+}
+
+.spin-text, .explanation {
+    font-size: 30px;
+}
+
