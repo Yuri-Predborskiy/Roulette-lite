@@ -36,6 +36,7 @@ $(function() {
 
 function ResetBalance() {
     myBalance=defaultBalance;
+    $('.myBalanceAmount').html(myBalance);
     localStorage.setItem("myBalance",myBalance);
 }
 
@@ -79,28 +80,13 @@ function DetermineCellColor(num) {
 
 // spin the roulette - generate random result from 0 to 36
 function Spin() {
+    var betAmount = CheckBetAmount();
+    if(betAmount===0) { return; }
     
-    var myBet = $('.myBetAmount').val();
-    var retryText = "\nPlease enter a valid bet amount and try again.";
-    switch(true) {
-        case (myBet > myBalance):
-            alert("You cannot bet more than your current balance. "+retryText);
-            return;
-            break;
+    console.log("returned "+betAmount);
 
-        case (myBet < minBet):
-            alert("Smallest allowed bet is "+minBet+". "+retryText);
-            return;
-            break;
-        
-        case (myBet > maxBet):
-            alert("Largest allowed bet is "+maxBet+". "+retryText);
-            return;
-            break;
-    }
-
-    var result = Math.floor(Math.random() * 37);
-    var cellColor = DetermineCellColor(result);
+    var spinResult = Math.floor(Math.random() * 37);
+    var cellColor = DetermineCellColor(spinResult);
     var speed = 300;
     var choiceText = "Make a choice and press Spin!";
     var winText = "Congratulations! You win!";
@@ -115,19 +101,28 @@ function Spin() {
         $('.spin-result').removeClass("zero");
 
         $('.spin-result').addClass(cellColor);
-        $('.spin-result').html(result);
+        $('.spin-result').html(spinResult);
 
-        $(".result-holder .explanation").html(ExplainResult(result));
+        $(".result-holder .explanation").html(ExplainResult(spinResult));
 
         if(bet==="no_bet") {
             $('.spin-text').html(choiceText).fadeIn(speed);
         } else {
-            if(WinOrLose(bet, result)) {
+            var tempBalanceAmount = parseInt($('.myBalanceAmount').html());
+            $('.myBalanceAmount').html(tempBalanceAmount-betAmount); // made a bet
+            tempBalanceAmount = tempBalanceAmount - betAmount; // update temp balance
+            var winOrLose = WinOrLose(bet, spinResult);
+            if(winOrLose==="win double") {
                 $('.spin-text').html(winText).fadeIn(speed);
-                // update balance with bet amount
-                // reset bet amount to defaultBet
+                $('.myBalanceAmount').html(tempBalanceAmount+betAmount*2); // win = 2*bet size
+                $('.myBetAmount').val(defaultBet);
+            } else if(winOrLose==="win number36") {
+                $('.spin-text').html(winText).fadeIn(speed);
+                $('.myBalanceAmount').html($('.myBalanceAmount').html()+betAmount*36); // win, guessed the number correctly = 36*bet size
+                $('.myBetAmount').val(defaultBet);
             } else {
                 $('.spin-text').html(loseText).fadeIn(speed);
+                $('.myBetAmount').val(defaultBet);
             }
         }
         $('.spin-result').fadeIn(speed);
@@ -138,6 +133,34 @@ function Spin() {
     localStorage.setItem("myBalance",myBalance);
     
     return;
+}
+
+// checks weather bet amount is a valid number (more than 0 and less than balance and less than max bet size)
+function CheckBetAmount() {
+    var myBalance = parseInt($('.myBalanceAmount').html());
+    var myBetAmount = $('.myBetAmount').val();
+    var retryText = "\nPlease enter a valid bet amount and try again.";
+    
+    switch(true) {
+        case (myBetAmount > myBalance):
+            alert("Invalid bet. You cannot bet more than your current balance. "+retryText);
+            return(0);
+            break;
+
+        case (myBetAmount < minBet):
+            alert("Invalid bet. Smallest allowed bet is "+minBet+". "+retryText);
+            return(0);
+            break;
+        
+        case (myBetAmount > maxBet):
+            alert("Invalid bet. Largest allowed bet is "+maxBet+". "+retryText);
+            return(0);
+            break;
+            
+        default:
+            console.log("returning "+myBetAmount);
+            return(myBetAmount);
+    }
 }
 
 // creates explanation text for resulting roll (spin)
@@ -177,41 +200,41 @@ function WinOrLose(bet, num) {
     switch(bet) {
         case "red":
             if(color===bet) {
-                return(true);
+                return("win double"); // win, normal
             } else {
-                return(false);
+                return(false); // lose
             }
         break;
 
         case "black":
             if(color===bet) {
-                return(true);
+                return("win double"); // win, normal
             } else {
-                return(false);
+                return(false); // lose
             }
         break;
 
         case "zero":
             if(color===bet) {
-                return(true);
+                return("win number36"); // win, number guessed, 36x win
             } else {
-                return(false);
+                return(false); // lose
             }
         break;
 
         case "even":
             if(num>0 && num%2===0) {
-                return(true);
+                return("win double"); // win, normal
             } else {
-                return(false);
+                return(false); // lose
             }
         break;
 
         case "odd":
             if(num>0 && num%2!==0) {
-                return(true);
+                return("win double"); // win, normal
             } else {
-                return(false);
+                return(false); // lose
             }
         break;
     }
