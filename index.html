@@ -11,7 +11,13 @@
 
 <body>
     <div class="wrapper">
-        <h2>Make your bet:</h2>
+        <h2 class="balance">
+            <span>Balance: </span>
+            <span class="myBalanceAmount"></span>
+            <br />
+            <input class="balance-reset-button" type="button" value="Reset balance" onclick="ResetBalance();" />
+        </h2>
+        <h2>Make a bet:</h2>
         <ul class="bets">
             <li class="bet even">Even</li>
             <li class="bet odd">Odd</li>
@@ -22,7 +28,11 @@
         </ul>
         <div class="clearfix"></div>
         <p>
-            <input class="spin-button" type="button" value="Spin" onclick="Spin();" />
+            <span>Enter bet amount: </span>
+            <input type="number" class="myBetAmount" name="myBetAmount" min="1" max="1000" value="50" required="true">
+            <p>
+                <input class="spin-button" type="button" value="Spin" onclick="Spin();" />
+            </p>
         </p>
         
         <p>
